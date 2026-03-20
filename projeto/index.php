@@ -34,7 +34,7 @@ $total = $pedido->calcularTotal();
 
 <div class="container">
 
-    <h1>Sistema de Pedidos da Loja <img src="./assets/fotinha.png" alt="Shop"></h1>
+    <h1>Sistema de Pedidos da Loja</h1>
 
     <div class="section">
         <h2>Pedido Nº <?php echo $pedido->getNumero(); ?></h2>
