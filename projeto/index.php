@@ -5,18 +5,24 @@ require_once "classes/Produto.php";
 require_once "classes/Pedido.php";
 
 // Cliente
-$cliente = new Cliente(1, "João Silva", "joao@email.com");
+$cliente = new Cliente(1, "Klint Burzlaff Berta Lemes", "KlintBurzlaff@gmail.com");
 
 // Produtos
-$p1 = new Produto(1, "Notebook", 3500);
-$p2 = new Produto(2, "Mouse Gamer", 150);
-$p3 = new Produto(3, "Headset", 280);
+$p1 = new Produto(1, "Pelúcia de dinossauro", 300);
+$p2 = new Produto(2, "Action Figure Jurassic Park", 399);
+$p3 = new Produto(3, "Chaveiro Blue e Beta", 20);
+$p4 = new Produto(4, "Chaveiro Blue e Owen", 20);
+$p5 = new Produto(5, "Chaveiro Jurassic World", 15);
+$p6 = new Produto(6, "Livro 'O Mundo Perdido'", 100);
 
 // Pedido
 $pedido = new Pedido(1001, $cliente);
 $pedido->adicionarProduto($p1);
 $pedido->adicionarProduto($p2);
 $pedido->adicionarProduto($p3);
+$pedido->adicionarProduto($p4);
+$pedido->adicionarProduto($p5);
+$pedido->adicionarProduto($p6);
 
 $total = $pedido->calcularTotal();
 ?>

@@ -12,7 +12,6 @@ private $preco;
         $this->preco = $preco;
     }
 
-
     public function getId() {
         return $this->id;
     }
@@ -40,7 +39,9 @@ private $preco;
     public function setNome($nome) {
         $this->nome = $nome;
     }
+
 }
 
-
 ?>
+
+

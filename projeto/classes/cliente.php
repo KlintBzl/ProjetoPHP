@@ -12,7 +12,6 @@ private $email;
         $this->email = $email;
     }
 
-
     public function getId() {
         return $this->id;
     }
@@ -36,10 +35,6 @@ private $email;
     public function setNome($nome) {
         $this->nome = $nome;
     }
-
-
-
 }
-
-
 ?>
+
