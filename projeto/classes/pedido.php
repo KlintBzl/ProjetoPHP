@@ -33,5 +33,29 @@ class Pedido {
 
         echo "<br>Total: R$ " . $this->calcularTotal();
     }
+
+    public function getNumero() {
+        return $this->numero;
+    }
+
+    public function setNumero($numero) {
+        $this->numero = $numero;
+    }
+
+    public function getCliente() {
+        return $this->cliente;
+    }
+
+    public function setCliente($cliente) {
+        $this->cliente = $cliente;
+    }
+
+    public function getProdutos() {
+        return $this->produtos;
+    }
+
+    public function setProdutos($produtos) {
+        $this->produtos = $produtos;
+    }
 }
 ?>
