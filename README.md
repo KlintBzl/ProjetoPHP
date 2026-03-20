@@ -35,90 +35,46 @@ O sistema simula o funcionamento básico de uma loja, permitindo o gerenciamento
 
 ##  Estrutura do Projeto
 
-projeto_loja/
-
-│
-
-├── index.php
-
-├── style.css
-
-├── README.md
-
-│
-
-└── classes/
-
-├── Cliente.php
-
-├── Produto.php
-
-└── Pedido.php
-
+<img width="181" height="182" alt="image" src="https://github.com/user-attachments/assets/6488bc98-52a7-4f16-ba27-026dc0afa77a" />
 
 ---
 
 ##  Classes do Sistema
 
 ###  Cliente
-- id  
-- nome  
-- email  
+
+<img width="406" height="625" alt="image" src="https://github.com/user-attachments/assets/cfee6123-4cb2-4082-af9b-00be52741f86" />
+
 
 ---
 
 ### Produto
-- id  
-- nome  
-- preco  
+
+<img width="440" height="613" alt="image" src="https://github.com/user-attachments/assets/9dc587d7-bf71-4718-8fc3-aba586b72190" />
 
 ✔ Possui validação para impedir preços negativos.
 
 ---
 
-### Pedido
-- numero  
-- cliente (objeto Cliente)  
-- produtos (array de Produto)  
-
-### Métodos:
-- adicionarProduto()  
-- calcularTotal()  
-- exibirResumo()  
+<img width="457" height="624" alt="image" src="https://github.com/user-attachments/assets/0bde5a2f-6306-4494-81ec-9554c1b4f892" />
 
 ---
 
 ## Interface
 
-O sistema exibe:
-
-- Título do sistema  
-- Número do pedido  
-- Dados do cliente  
-- Lista de produtos  
-- Total do pedido  
-
+<img width="1365" height="634" alt="image" src="https://github.com/user-attachments/assets/e97e51f9-84dc-4d43-b0ce-5d4ff0c38cf0" />
+ 
 ---
 
 ## Estilização
 
-- Layout limpo e organizado  
-- Cores suaves  
-- Boa legibilidade  
-- Uso de CSS externo  
+<img width="391" height="588" alt="image" src="https://github.com/user-attachments/assets/5dd9e430-8be5-48ac-bdd6-50aa6ce0ff56" />
 
 ---
 
 ## Responsividade
 
-O sistema é responsivo e funciona em:
-
-- Celulares  
-- Computadores  
-
-✔ Layout adaptável  
-✔ Elementos ajustáveis  
-✔ Texto legível em telas menores  
+<img width="505" height="438" alt="image" src="https://github.com/user-attachments/assets/d56ea149-8986-4cdb-944a-951e4f9fab2c" />
 
 ---
 
