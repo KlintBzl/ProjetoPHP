@@ -5,9 +5,8 @@ class Pedido {
     private $cliente;
     private $produtos = [];
 
-    public function __construct($numero, Cliente $cliente) {
-        $this->numero = $numero;
-        $this->cliente = $cliente;
+    public function __construct(Cliente $cliente) {
+    $this->cliente = $cliente;
     }
 
     public function adicionarProduto(Produto $produto) {

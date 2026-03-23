@@ -1,74 +1,205 @@
-<?php
-
-require_once "classes/Cliente.php";
-require_once "classes/Produto.php";
-require_once "classes/Pedido.php";
-
-// Cliente
-$cliente = new Cliente(1, "Klint Burzlaff Berta Lemes", "KlintBurzlaff@gmail.com");
-
-// Produtos
-$p1 = new Produto(1, "Pelúcia de dinossauro", 300);
-$p2 = new Produto(2, "Action Figure Jurassic Park", 399);
-$p3 = new Produto(3, "Chaveiro Blue e Beta", 20);
-$p4 = new Produto(4, "Chaveiro Blue e Owen", 20);
-$p5 = new Produto(5, "Chaveiro Jurassic World", 15);
-$p6 = new Produto(6, "Livro 'O Mundo Perdido'", 100);
-
-// Pedido
-$pedido = new Pedido(1001, $cliente);
-$pedido->adicionarProduto($p1);
-$pedido->adicionarProduto($p2);
-$pedido->adicionarProduto($p3);
-$pedido->adicionarProduto($p4);
-$pedido->adicionarProduto($p5);
-$pedido->adicionarProduto($p6);
-
-$total = $pedido->calcularTotal();
-?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/png" href="./assets/fotinha.png">
-    <title>Sistema de Pedidos</title>
-</head>
-<body>
+<link rel="stylesheet" href="./style.css">
 
 <div class="container">
 
-    <h1>Sistema de Pedidos da Loja</h1>
+<div class="card">
+    <?php
 
-    <div class="section">
-        <h2>Pedido Nº <?php echo $pedido->getNumero(); ?></h2>
-    </div>
+// Importações
+require_once "dao/clienteDAO.php";
+require_once "dao/pedidoDAO.php";
+require_once "dao/produtoDAO.php";
+require_once "classes/cliente.php";
+require_once "classes/pedido.php";
+require_once "classes/produto.php";
 
-    <div class="section">
-        <h2>Cliente</h2>
-        <p><?php echo $cliente->getNome(); ?></p>
-        <p><?php echo $cliente->getEmail(); ?></p>
-    </div>
+// Cria objeto DAO
+$clienteDAO = new ClienteDAO();
 
-    <div class="section">
-        <h2>Produtos</h2>
+if(isset($_POST['salvarCli'])) {
 
-        <?php foreach ($pedido->getProdutos() as $produto): ?>
-            <div class="produto">
-                <span><?php echo $produto->getNome(); ?></span>
-                <span>R$ <?php echo number_format($produto->getPreco(), 2, ',', '.'); ?></span>
-            </div>
-        <?php endforeach; ?>
+    $nome = $_POST['nomeCli'];
+    $email = $_POST['emailCli'];
 
-    </div>
+    $cliente = new Cliente(null, $nome, $email);
 
-    <div class="section total">
-        Total: R$ <?php echo number_format($total, 2, ',', '.'); ?>
-    </div>
+    if($clienteDAO->inserir($cliente)) {
+        echo "Cliente cadastrado com sucesso!<br>";
+    } else {
+        echo "Erro ao cadastrar!<br>";
+    }
+}
+?>
 
+<h2>Cadastro de Clientes</h2>
+
+<form method="POST">
+
+    Nome: <br>
+    <input type="text" name="nomeCli" required><br><br>
+
+    Email: <br>
+    <input type="email" name="emailCli" required><br><br>
+
+    <button type="submit" name="salvarCli">Salvar</button>
+
+</form>
 </div>
 
-</body>
-</html>
+<div class="card">
+    <?php
+
+// Cria objeto DAO
+$produtoDAO = new ProdutoDAO();
+
+if(isset($_POST['salvarPro'])) {
+
+    $nome = $_POST['nomePro'];
+    $preco = $_POST['precoPro'];
+
+    $produto = new Produto(null, $nome, $preco);
+
+    if($produtoDAO->inserir($produto)) {
+        echo "Produto cadastrado com sucesso!<br>";
+    } else {
+        echo "Erro ao cadastrar!<br>";
+    }
+}
+?>
+
+<h2>Cadastro de Produtos</h2>
+
+<form method="POST">
+
+    Nome: <br>
+    <input type="text" name="nomePro" required><br><br>
+
+    Preço: <br>
+    <input type="number" name="precoPro" required><br><br>
+
+    <button type="submit" name="salvarPro">Salvar</button>
+
+</form>
+</div>
+
+<div class="card">
+    <?php 
+
+$pedidoDAO = new PedidoDAO();
+$clientes = $clienteDAO->listar();
+$produtos = $produtoDAO->listar();
+
+if(isset($_POST['salvarPed'])) {
+
+    $cli = $_POST['cliPed'];
+    $produtosSelecionados = $_POST['produtos'] ?? [];
+
+    // busca cliente
+    $cliente = $clienteDAO->buscarPorId($cli);
+
+    if(!$cliente) {
+        echo "Cliente não encontrado!<br>";
+        exit;
+    }
+
+
+    $pedido = new Pedido($cliente);
+
+    // adiciona SOMENTE os produtos marcados
+    foreach($produtosSelecionados as $idProduto) {
+        $produto = $produtoDAO->buscarPorId($idProduto);
+
+        if($produto) {
+            $pedido->adicionarProduto($produto);
+        }
+    }
+
+    // valida se escolheu produto
+    if(empty($pedido->getProdutos())) {
+        echo "Selecione pelo menos um produto!<br>";
+        exit;
+    }
+
+    // salva
+    if($pedidoDAO->inserir($pedido)) {
+        echo "Pedido cadastrado com sucesso!<br>";
+    } else {
+        echo "Erro ao cadastrar!<br>";
+    }
+}
+?>
+
+<h2>Cadastro de Pedidos</h2>
+
+<form method="POST">
+
+    Cliente: <br>
+    <select name="cliPed">
+        <?php foreach($clientes as $c): ?>
+            <option value="<?= $c->getId() ?>">
+                <?= $c->getNome() ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+
+    <br><br>
+
+    Produtos: <br>
+
+    <?php foreach($produtos as $p): ?>
+        <input type="checkbox" name="produtos[]" value="<?= $p->getId() ?>">
+        <?= $p->getNome() ?> (R$ <?= $p->getPreco() ?>)
+        <br>
+    <?php endforeach; ?>
+
+    <br>
+
+    <button type="submit" name="salvarPed">Salvar</button>
+
+</form>
+
+<?php 
+
+$dados = $pedidoDAO->listarComProdutos();
+
+$pedidos = [];
+
+foreach($dados as $linha) {
+
+    $id = $linha['pedido_id'];
+
+    if(!isset($pedidos[$id])) {
+        $pedidos[$id] = [
+            'cliente' => $linha['cliente_nome'],
+            'produtos' => []
+        ];
+    }
+
+    $pedidos[$id]['produtos'][] = [
+        'nome' => $linha['produto_nome'],
+        'preco' => $linha['preco']
+    ];
+}
+
+echo "<h2>Pedidos cadastrados</h2>";
+
+foreach($pedidos as $id => $pedido) {
+
+    echo "<div class='pedido'>";
+    echo "<h3>Pedido #$id</h3>";
+    echo "<strong>Cliente:</strong> " . $pedido['cliente'] . "<br><br>";
+
+    echo "<strong>Produtos:</strong><br>";
+
+    foreach($pedido['produtos'] as $produto) {
+        echo "- {$produto['nome']} (R$ {$produto['preco']})<br>";
+    }
+
+    echo "<hr>";
+    echo "</div>";
+}
+
+?>
+</div>
+
+</div>
