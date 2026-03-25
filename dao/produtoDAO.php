@@ -21,7 +21,7 @@ class produtoDAO {
         $this->conn = $database->getConnection();
     }
 
-    public function buscarPorId($id) {
+    public function buscarPorIdN($id) {
 
     $sql = "SELECT * FROM produtos WHERE id = :id";
     $stmt = $this->conn->prepare($sql);
@@ -41,7 +41,25 @@ class produtoDAO {
     return null;
     }
 
-    public function listar() {
+
+public function buscarPorId($id) {
+
+    $sql = "SELECT * FROM produtos WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(":id", $id);
+    $stmt->execute();
+
+    $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($dados) {
+        return new Produto($dados['id'], $dados['nome'], $dados['preco']);
+    }
+
+    return null;
+}
+
+    public function listarN() {
     $sql = "SELECT * FROM produtos";
     $stmt = $this->conn->query($sql);
 
@@ -54,10 +72,19 @@ class produtoDAO {
     return $produtos;
     }
 
-    // Método responsável por inserir dados
+    public function listar() {
+
+        $sql = "SELECT * FROM produtos ORDER BY id DESC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function inserir(produto $produto) {
 
-        // SQL com parâmetros nomeados
         $sql = "INSERT INTO produtos (nome, preco)
                 VALUES (:nome, :preco)";
 

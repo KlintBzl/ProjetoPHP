@@ -1,27 +1,31 @@
 <?php
 
-// Importa conexão
 require_once "config/Database.php";
 
-// Importa model
 require_once "classes/Cliente.php";
 
 class ClienteDAO {
 
-    // Atributo que armazenará a conexão
     private $conn;
 
-    // Construtor cria conexão automaticamente
     public function __construct() {
 
-        // Instancia Database
         $database = new Database();
 
-        // Obtém conexão
         $this->conn = $database->getConnection();
     }
 
-    public function listar() {
+public function excluir($id) {
+
+    $sql = "DELETE FROM clientes WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(":id", $id);
+
+    return $stmt->execute();
+}
+
+    public function listarN() {
 
     $sql = "SELECT * FROM clientes";
 
@@ -40,7 +44,18 @@ class ClienteDAO {
     return $clientes;
 }
 
-    public function buscarPorId($id) {
+public function listar() {
+
+        $sql = "SELECT * FROM clientes ORDER BY id DESC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function buscarPorIdN($id) {
 
     $sql = "SELECT * FROM clientes WHERE id = :id";
 
@@ -56,22 +71,49 @@ class ClienteDAO {
 
     return new Cliente($dados['id'], $dados['nome'], $dados['email']);
 }
+public function buscarPorId($id) {
 
-    // Método responsável por inserir dados
+    $sql = "SELECT * FROM clientes WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(":id", $id);
+    $stmt->execute();
+
+    $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($dados) {
+        return new Cliente($dados['id'], $dados['nome'], $dados['email']);
+    }
+
+    return null;
+}
+
     public function inserir(Cliente $cliente) {
 
-        // SQL com parâmetros nomeados
         $sql = "INSERT INTO clientes (nome, email)
                 VALUES (:nome, :email)";
 
-        // Prepara a query
         $stmt = $this->conn->prepare($sql);
 
-        // Associa valores aos parâmetros
         $stmt->bindValue(":nome", $cliente->getNome());
         $stmt->bindValue(":email", $cliente->getEmail());
 
-        // Executa e retorna verdadeiro ou falso
         return $stmt->execute();
     }
+
+    // ATUALIZAR CLIENTE
+public function atualizar(Cliente $cliente) {
+
+    $sql = "UPDATE clientes
+            SET nome = :nome, email = :email
+            WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bindValue(":nome", $cliente->getNome());
+    $stmt->bindValue(":email", $cliente->getEmail());
+    $stmt->bindValue(":id", $cliente->getId());
+
+    return $stmt->execute();
+}
 }

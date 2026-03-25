@@ -1,19 +1,25 @@
 <link rel="stylesheet" href="./style.css">
+<link rel="icon" href="./assets/fotinha.png">
 
-<div class="container">
-
-<div class="card">
-    <?php
-
-// Importações
+<?php 
 require_once "dao/clienteDAO.php";
 require_once "dao/pedidoDAO.php";
 require_once "dao/produtoDAO.php";
 require_once "classes/cliente.php";
 require_once "classes/pedido.php";
 require_once "classes/produto.php";
+ ?>
 
-// Cria objeto DAO
+
+
+
+
+<div class="container">
+<div class="card">
+    <?php
+
+
+
 $clienteDAO = new ClienteDAO();
 
 if(isset($_POST['salvarCli'])) {
@@ -44,7 +50,40 @@ if(isset($_POST['salvarCli'])) {
     <button type="submit" name="salvarCli">Salvar</button>
 
 </form>
+
+<?php
+$clientes = $clienteDAO->listar();
+?>
+
+<h2>Clientes Cadastrados</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+
+    <?php foreach ($clientes as $cliente): ?>
+        <tr>
+            <td><?= $cliente['id']; ?></td>
+            <td><?= $cliente['nome']; ?></td>
+            <td><?= $cliente['email']; ?></td>
+            <td>
+                <a href="editar_cliente.php?id=<?= $cliente['id']; ?>">Editar</a> |
+                <a href="excluir_cliente.php?id=<?= $cliente['id']; ?>">Excluir</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 </div>
+
+
+
+
+
+
 
 <div class="card">
     <?php
@@ -80,14 +119,46 @@ if(isset($_POST['salvarPro'])) {
     <button type="submit" name="salvarPro">Salvar</button>
 
 </form>
+
+<h2>Produtos Cadastrados</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+    </tr>
+
+    <?php foreach ($produtos as $produto): ?>
+        <tr>
+            <td><?= $produto['id']; ?></td>
+            <td><?= $produto['nome']; ?></td>
+            <td><?= $produto['email']; ?></td>
+            <td>
+                <a href="editar_produto.php?id=<?= $produto['id']; ?>">Editar</a> |
+                <a href="excluir_produto.php?id=<?= $produto['id']; ?>">Excluir</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 </div>
+
+
+
+
+
+
+
+
+
 
 <div class="card">
     <?php 
 
 $pedidoDAO = new PedidoDAO();
-$clientes = $clienteDAO->listar();
-$produtos = $produtoDAO->listar();
+$clientes = $clienteDAO->listarN();
+$produtos = $produtoDAO->listarN();
 
 if(isset($_POST['salvarPed'])) {
 
@@ -98,7 +169,7 @@ if(isset($_POST['salvarPed'])) {
     $cliente = $clienteDAO->buscarPorId($cli);
 
     if(!$cliente) {
-        echo "Cliente não encontrado!<br>";
+        echo "Nenhum cliente cadastrado até o momento!<br>";
         exit;
     }
 
