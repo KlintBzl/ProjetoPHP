@@ -117,6 +117,7 @@ O sistema possui três áreas principais:
 
 ##  Autor
 
+Klint Burzlaff Berta Lemes - 17anos
 Projeto desenvolvido para fins de estudo de PHP e POO.
 
 ---
