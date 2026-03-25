@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
 
     if ($clienteDAO->excluir($id)) {
         echo "Cliente excluído com sucesso!<br><br>";
-        header("refresh:2;url=clientes.php");
+        header("refresh:2;url=index.php");
         exit;
     } else {
         echo "Erro ao excluir cliente!";

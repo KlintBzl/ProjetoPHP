@@ -21,7 +21,7 @@ if (isset($_POST['atualizar'])) {
 
     if ($clienteDAO->atualizar($clienteAtualizado)) {
         echo "Cliente atualizado com sucesso!<br><br>";
-        header("refresh:2;url=clientes.php");
+        header("refresh:2;url=index.php");
         exit;
     } else {
         echo "Erro ao atualizar cliente!";
