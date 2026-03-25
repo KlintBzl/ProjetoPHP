@@ -1,94 +1,127 @@
 # Sistema de Pedidos em PHP
 
----
-
-## Sobre o Projeto
-
-Este projeto foi desenvolvido com o objetivo de aplicar conceitos de **Programação Orientada a Objetos (POO) em PHP**, além de boas práticas de organização de código, uso de HTML, CSS e responsividade.
-
-O sistema simula o funcionamento básico de uma loja, permitindo o gerenciamento de pedidos de forma simples e organizada.
+Este projeto é um sistema simples de gerenciamento de pedidos, desenvolvido em PHP utilizando Programação Orientada a Objetos (POO) e banco de dados MySQL.
 
 ---
 
 ## Funcionalidades
 
--  Cadastro de cliente  
--  Cadastro de produtos  
--  Criação de pedido  
--  Adição de produtos ao pedido  
--  Cálculo automático do total  
--  Exibição de resumo do pedido  
+- ✅ Cadastro de clientes
+- ✅ Cadastro de produtos
+- ✅ Criação de pedidos
+- ✅ Associação de clientes aos pedidos
+- ✅ Seleção de múltiplos produtos por pedido
+- ✅ Cálculo automático do total do pedido
 
 ---
 
-##  Conceitos aplicados
+## Estrutura do Projeto
 
-- Classes e Objetos  
-- Encapsulamento (`private`)  
-- Getters e Setters  
-- Construtor (`__construct`)  
-- Relacionamento entre classes  
-- Organização em múltiplos arquivos  
-- Uso de `require_once`  
 
----
-
-##  Estrutura do Projeto
-
-<img width="181" height="182" alt="image" src="https://github.com/user-attachments/assets/6488bc98-52a7-4f16-ba27-026dc0afa77a" />
-
----
-
-##  Classes do Sistema
-
-###  Cliente
-
-<img width="406" height="625" alt="image" src="https://github.com/user-attachments/assets/cfee6123-4cb2-4082-af9b-00be52741f86" />
 
 
 ---
 
-### Produto
+##  Conceitos Utilizados
 
-<img width="440" height="613" alt="image" src="https://github.com/user-attachments/assets/9dc587d7-bf71-4718-8fc3-aba586b72190" />
-
-✔ Possui validação para impedir preços negativos.
-
----
-
-<img width="457" height="624" alt="image" src="https://github.com/user-attachments/assets/0bde5a2f-6306-4494-81ec-9554c1b4f892" />
+- Programação Orientada a Objetos (POO)
+- Encapsulamento (getters e setters)
+- DAO (Data Access Object)
+- PDO para conexão com banco de dados
+- Relacionamento entre entidades (Cliente, Produto e Pedido)
 
 ---
+
+##  Banco de Dados
+
+###  Tabela `clientes`
+
+```sql
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    email VARCHAR(100)
+);
+```
+###  Tabela `produtos`
+
+```sql
+CREATE TABLE produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100),
+    preco DECIMAL(10,2)
+);
+```
+###  Tabela `pedidos`
+
+```sql
+CREATE TABLE pedidos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT,
+    cliente_id INT,
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+```
+###  Tabela `pedidos`(relacionamento)
+
+```sql
+CREATE TABLE pedido_produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pedido_id INT,
+    produto_id INT,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
+    FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);
+```
+
+## Como Executar o Projeto
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repo.git
+   ```
+2. Coloque o projeto dentro da pasta htdocs (XAMPP)
+3. Inicie o Apache e MySQL no XAMPP
+4. Crie o banco de dados no phpMyAdmin
+5. Execute os scripts SQL acima
+6. Acesse no navegador:
+http://localhost/projeto/index.php
 
 ## Interface
 
-<img width="1365" height="634" alt="image" src="https://github.com/user-attachments/assets/e97e51f9-84dc-4d43-b0ce-5d4ff0c38cf0" />
- 
----
+O sistema possui três áreas principais:
 
-## Estilização
-
-<img width="391" height="588" alt="image" src="https://github.com/user-attachments/assets/5dd9e430-8be5-48ac-bdd6-50aa6ce0ff56" />
+- Cadastro de Clientes  
+- Cadastro de Produtos  
+- Cadastro de Pedidos  
 
 ---
 
-## Responsividade
+## Observações
 
-<img width="505" height="438" alt="image" src="https://github.com/user-attachments/assets/d56ea149-8986-4cdb-944a-951e4f9fab2c" />
-
----
-
-## Como executar o projeto
-
-1. Clone este repositório:
-https://github.com/KlintBzl/ProjetoPHP
-2. Coloque a pasta em um servidor local (ex: XAMPP)
-
-3. Acesse no navegador:
-localhost/projeto/index.php
+- O número do pedido é gerado automaticamente  
+- É necessário cadastrar clientes e produtos antes de criar pedidos  
+- O sistema ainda não possui edição ou exclusão de dados  
 
 ---
 
-## Autor
+## Melhorias Futuras
 
-Klint Burzlaff Berta Lemes - 17 anos
+- Editar e excluir registros  
+- Listagem de pedidos  
+- Exibição do total por pedido  
+- Sistema de login  
+- Interface com CSS/Bootstrap  
+
+---
+
+##  Autor
+
+Klint Burzlaff Berta Lemes - 17anos
+Projeto desenvolvido para fins de estudo de PHP e POO.
+
+---
+
+## Licença
+
+Uso livre para fins educacionais.
