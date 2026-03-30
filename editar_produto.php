@@ -20,11 +20,11 @@ if (isset($_POST['atualizar'])) {
     $produtoAtualizado = new produto($id, $nome, $preco);
 
     if ($produtoDAO->atualizar($produtoAtualizado)) {
-        echo "Produto atualizado com sucesso!<br><br>";
+        echo "<h1>Produto atualizado com sucesso!</h1><br><br>";
         header("refresh:2;url=index.php");
         exit;
     } else {
-        echo "Erro ao atualizar produto!";
+        echo "<h1>Erro ao atualizar produto!</h1>";
     }
 }
 ?>
@@ -42,3 +42,7 @@ if (isset($_POST['atualizar'])) {
 
     <button type="submit" name="atualizar">Atualizar</button>
 </form>
+<head>
+<link rel="stylesheet" href="./style.css">
+<link rel="icon" href="./assets/edit.png">
+</head>

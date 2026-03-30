@@ -71,8 +71,8 @@ $clientes = $clienteDAO->listar();
             <td><?= $cliente['nome']; ?></td>
             <td><?= $cliente['email']; ?></td>
             <td>
-                <a href="editar_cliente.php?id=<?= $cliente['id']; ?>">Editar</a> |
-                <a href="excluir_cliente.php?id=<?= $cliente['id']; ?>">Excluir</a>
+                <a class="editar" href="editar_cliente.php?id=<?= $cliente['id']; ?>">Editar</a> <br> | <br>
+                <a class="excluir" href="excluir_cliente.php?id=<?= $cliente['id']; ?>">Excluir</a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -140,8 +140,8 @@ $produtosp = $produtoDAO->listar();
             <td><?= $produto['nome']; ?></td>
             <td><?= $produto['preco']; ?></td>
             <td>
-                <a href="editar_produto.php?id=<?= $produto['id']; ?>">Editar</a> |
-                <a href="excluir_produto.php?id=<?= $produto['id']; ?>">Excluir</a>
+                <a class="editar" href="editar_produto.php?id=<?= $produto['id']; ?>">Editar</a> <br> | <br>
+                <a class="excluir" href="excluir_produto.php?id=<?= $produto['id']; ?>">Excluir</a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -257,8 +257,8 @@ $listaProdutos = $produtoDAO->listar();
             <td><?= $pedido['produto_nome']; ?></td>
             <td>R$ <?= $pedido['preco']; ?></td>
             <td>
-                <a href="editar_pedido.php?id=<?= $pedido['pedido_id']; ?>">Editar</a> |
-                <a href="excluir_pedido.php?id=<?= $pedido['pedido_id']; ?>">Excluir</a>
+                <a class="editar" href="editar_pedido.php?id=<?= $pedido['pedido_id']; ?>">Editar</a> |
+                <a class="excluir" href="excluir_pedido.php?id=<?= $pedido['pedido_id']; ?>">Excluir</a>
             </td>
         </tr>
     <?php endforeach; ?>

@@ -8,11 +8,15 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     if ($pedidoDAO->excluir($id)) {
-        echo "Pedido excluído com sucesso!<br><br>";
+        echo "<h1>Pedido excluído com sucesso!</h1><br><br>";
         header("refresh:2;url=index.php");
         exit;
     } else {
-        echo "Erro ao excluir pedido!";
+        echo "<h1>Erro ao excluir pedido!</h1>";
     }
 }
 ?>
+<head>
+<link rel="stylesheet" href="./style.css">
+<link rel="icon" href="./assets/delete.png">
+</head>

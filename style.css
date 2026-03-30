@@ -85,6 +85,53 @@ hr {
     margin-bottom: 10px;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.editar {
+    background: #3498db;
+    color: white;
+    padding: 1px 7px;
+    border-radius: 5px;
+}
+
+.excluir {
+    background: #e74c3c;
+    color: white;
+    padding: 1px 7px;
+    border-radius: 5px;
+}
+
+.editar:hover {
+    background: #2980b9;
+}
+
+.excluir:hover {
+    background: #c0392b;
+}
+
 @media (max-width: 600px) {
     body {
         padding: 10px;
