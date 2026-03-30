@@ -21,6 +21,57 @@ class produtoDAO {
         $this->conn = $database->getConnection();
     }
 
+    public function atualizar(Produto $produto) {
+
+    $sql = "UPDATE produtos
+            SET nome = :nome, preco = :preco
+            WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bindValue(":nome", $produto->getNome());
+    $stmt->bindValue(":preco", $produto->getPreco());
+    $stmt->bindValue(":id", $produto->getId());
+
+    return $stmt->execute();
+}
+
+public function buscarProdutosPorPedido($pedido_id) {
+
+    $sql = "SELECT produto_id FROM pedido_produtos WHERE pedido_id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$pedido_id]);
+
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
+
+public function atualizarProdutos($pedido_id, $produtos) {
+
+    // Remove os antigos
+    $sqlDelete = "DELETE FROM pedido_produtos WHERE pedido_id = ?";
+    $stmt = $this->conn->prepare($sqlDelete);
+    $stmt->execute([$pedido_id]);
+
+    // Insere os novos
+    $sqlInsert = "INSERT INTO pedido_produtos (pedido_id, produto_id) VALUES (?, ?)";
+    $stmt = $this->conn->prepare($sqlInsert);
+
+    foreach ($produtos as $produto_id) {
+        $stmt->execute([$pedido_id, $produto_id]);
+    }
+}
+
+    public function excluir($id) {
+
+    $sql = "DELETE FROM produtos WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(":id", $id);
+
+    return $stmt->execute();
+}
+
     public function buscarPorIdN($id) {
 
     $sql = "SELECT * FROM produtos WHERE id = :id";

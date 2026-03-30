@@ -120,21 +120,25 @@ if(isset($_POST['salvarPro'])) {
 
 </form>
 
+<?php 
+$produtosp = $produtoDAO->listar();
+?>
+
 <h2>Produtos Cadastrados</h2>
 
 <table border="1" cellpadding="10">
     <tr>
         <th>ID</th>
         <th>Nome</th>
-        <th>Email</th>
+        <th>Preço</th>
         <th>Ações</th>
     </tr>
 
-    <?php foreach ($produtos as $produto): ?>
+    <?php foreach ($produtosp as $produto): ?>
         <tr>
             <td><?= $produto['id']; ?></td>
             <td><?= $produto['nome']; ?></td>
-            <td><?= $produto['email']; ?></td>
+            <td><?= $produto['preco']; ?></td>
             <td>
                 <a href="editar_produto.php?id=<?= $produto['id']; ?>">Editar</a> |
                 <a href="excluir_produto.php?id=<?= $produto['id']; ?>">Excluir</a>
@@ -174,7 +178,7 @@ if(isset($_POST['salvarPed'])) {
     }
 
 
-    $pedido = new Pedido($cliente);
+    $pedido = new Pedido(null, $cliente);
 
     // adiciona SOMENTE os produtos marcados
     foreach($produtosSelecionados as $idProduto) {
@@ -230,47 +234,35 @@ if(isset($_POST['salvarPed'])) {
 </form>
 
 <?php 
-
-$dados = $pedidoDAO->listarComProdutos();
-
-$pedidos = [];
-
-foreach($dados as $linha) {
-
-    $id = $linha['pedido_id'];
-
-    if(!isset($pedidos[$id])) {
-        $pedidos[$id] = [
-            'cliente' => $linha['cliente_nome'],
-            'produtos' => []
-        ];
-    }
-
-    $pedidos[$id]['produtos'][] = [
-        'nome' => $linha['produto_nome'],
-        'preco' => $linha['preco']
-    ];
-}
-
-echo "<h2>Pedidos cadastrados</h2>";
-
-foreach($pedidos as $id => $pedido) {
-
-    echo "<div class='pedido'>";
-    echo "<h3>Pedido #$id</h3>";
-    echo "<strong>Cliente:</strong> " . $pedido['cliente'] . "<br><br>";
-
-    echo "<strong>Produtos:</strong><br>";
-
-    foreach($pedido['produtos'] as $produto) {
-        echo "- {$produto['nome']} (R$ {$produto['preco']})<br>";
-    }
-
-    echo "<hr>";
-    echo "</div>";
-}
-
+$pedidos = $pedidoDAO->listarComProdutos();
+$produtoDAO = new ProdutoDAO();
+$listaProdutos = $produtoDAO->listar();
 ?>
+
+<h2>Pedidos Cadastrados</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID Pedido</th>
+        <th>Cliente</th>
+        <th>Produto</th>
+        <th>Preço</th>
+        <th>Ações</th>
+    </tr>
+
+    <?php foreach ($pedidos as $pedido): ?>
+        <tr>
+            <td><?= $pedido['pedido_id']; ?></td>
+            <td><?= $pedido['cliente_nome']; ?></td>
+            <td><?= $pedido['produto_nome']; ?></td>
+            <td>R$ <?= $pedido['preco']; ?></td>
+            <td>
+                <a href="editar_pedido.php?id=<?= $pedido['pedido_id']; ?>">Editar</a> |
+                <a href="excluir_pedido.php?id=<?= $pedido['pedido_id']; ?>">Excluir</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 </div>
 
 </div>

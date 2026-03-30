@@ -1,12 +1,13 @@
-<?php
+<?php 
 
 class Pedido {
-    private $numero;
+    private $id;
     private $cliente;
     private $produtos = [];
 
-    public function __construct(Cliente $cliente) {
-    $this->cliente = $cliente;
+    public function __construct($id, Cliente $cliente) {
+        $this->id = $id;
+        $this->cliente = $cliente;
     }
 
     public function adicionarProduto(Produto $produto) {
@@ -22,7 +23,6 @@ class Pedido {
     }
 
     public function exibirResumo() {
-        echo "<h3>Pedido #{$this->numero}</h3>";
         echo "Cliente: " . $this->cliente->getNome() . "<br><br>";
 
         echo "Produtos:<br>";
@@ -33,24 +33,27 @@ class Pedido {
         echo "<br>Total: R$ " . $this->calcularTotal();
     }
 
-    public function getNumero() {
-        return $this->numero;
+    // GETTERS E SETTERS
+
+    public function getId() {
+        return $this->id;
     }
-    public function setNumero($numero) {
-        $this->numero = $numero;
-    }
+
     public function getCliente() {
         return $this->cliente;
     }
-    public function setCliente($cliente) {
+
+    public function setCliente(Cliente $cliente) {
         $this->cliente = $cliente;
     }
+
     public function getProdutos() {
         return $this->produtos;
     }
+
     public function setProdutos($produtos) {
         $this->produtos = $produtos;
     }
 }
-?>
 
+?>

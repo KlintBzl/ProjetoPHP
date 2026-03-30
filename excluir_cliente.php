@@ -16,7 +16,3 @@ if (isset($_GET['id'])) {
     }
 }
 ?>
-
-<html>
-    <button href="./index.php">Voltar</button>
-</html>
